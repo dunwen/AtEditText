@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\Androidstdioworkspace\AtEditText\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="D:\Androidstdioworkspace\AtEditText\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_3c9bc03b34525108de38bc21e018d752657ed296.jar" />
+    </item>
+    <item
+        jar="D:\Androidstdioworkspace\AtEditText\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="D:\Androidstdioworkspace\AtEditText\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_95b233092299ce8ec397bb5a88b8a6aa18fd70a9.jar" />
+    </item>
+    <item
+        jar="H:\Sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="D:\Androidstdioworkspace\AtEditText\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_07475438f5f5a989eaa8e35e65d34aac4e9e43c9.jar" />
+    </item>
+    <item
+        jar="D:\Androidstdioworkspace\AtEditText\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="D:\Androidstdioworkspace\AtEditText\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_316804681ef12e191f9852c1c08c7030b45cc4bf.jar" />
+    </item>
+
+</items>
