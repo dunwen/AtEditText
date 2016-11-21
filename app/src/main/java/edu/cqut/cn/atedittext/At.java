@@ -1,11 +1,5 @@
 package edu.cqut.cn.atedittext;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
-
-import java.util.ArrayList;
-
 /**
  * Created by dun on 2016/2/15.
  */
@@ -30,6 +24,7 @@ public class At {
     }
 
     private void setEditText() {
+
         editText.addTextChangedListener(new TextWatcher() {
             String removeString = "";
 
@@ -40,14 +35,22 @@ public class At {
                 if (count - after == 1) {
                     String lastString = getLastString(s, start);
                     removeString = lastString;
-
+                }else if(after - count >=1){
+                    int selectionStart = editText.getSelectionStart();
+                    int index = isSelectionOnAtBean(selectionStart);
+                    if(index!=-1){
+                        Position p = AtList.remove(index);
+                        notifyIndexRemove(index,p);
+                    }
                 }
+
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 //                Log.i(TAG, "onTextChanged: start>"+start+" count>"+count+" before>"+before);
+                int index = -1;
                 if (count - before == 1) {
                     if (start == 0||policy.whenAtEffective(s, start, before, count)) {
                         String lastString = getLastString(s, start);
@@ -61,11 +64,20 @@ public class At {
                 } else if (before - count == 1 && removeString.equals(" ")) {
                     for (Position position : AtList) {
                         if (start == position.finish) {
+                            index = AtList.indexOf(position);
                             Editable editable = editText.getText();
                             editable.delete(position.start, position.finish);
                             AtList.remove(position);
+                            notifyIndexRemove(index,position);
+                            break;
                         }
                     }
+                }else if(before-count == 1 && (index=isRemoveAtBean())!=-1){
+                    Position p = AtList.get(index);
+                    Editable editable = editText.getText();
+                    editable.delete(p.start, p.finish);
+                    AtList.remove(index);
+                    notifyIndexRemove(index,p);
                 }
             }
 
@@ -74,6 +86,17 @@ public class At {
 
             }
         });
+    }
+
+    private void notifyIndexRemove(int index, Position p) {
+        for (int i = 0; i < AtList.size(); i++) {
+            int length = p.finish - p.start+1;
+            if(i>=index){
+                Position position = AtList.get(i);
+                position.start = position.start - length;
+                position.finish = position.finish - length;
+            }
+        }
     }
 
     /**
@@ -107,6 +130,27 @@ public class At {
         AtList.add(p);
     }
 
+    public void addPositions(List<atBean> datas){
+        int SelectionStart = editText.getSelectionStart();
+        for (int i = 0; i < datas.size(); i++) {
+            atBean bean = datas.get(i);
+            Editable editable = editText.getText();
+            int tempSelection;
+            Position p;
+            if(i==0){
+                editable.insert(SelectionStart,bean.showOnEditText() + " ");
+                p= new Position(SelectionStart-1,SelectionStart+bean.showOnEditText().length(),bean);
+                tempSelection = SelectionStart + bean.showOnEditText().length()+1;
+            }else{
+                tempSelection = SelectionStart + bean.showOnEditText().length()+2;
+                editable.insert(SelectionStart,"@"+bean.showOnEditText() + " ");
+                p = new Position(SelectionStart,SelectionStart+bean.showOnEditText().length()+1,bean);
+            }
+
+            AtList.add(p);
+            SelectionStart = tempSelection;
+        }
+    }
     /**
      * 获得已经提到的所有实体类
      * */
@@ -118,8 +162,19 @@ public class At {
         return list;
     }
 
-
-
+    public int isRemoveAtBean() {
+        int selectionStart = editText.getSelectionStart()+1;
+        return isSelectionOnAtBean(selectionStart);
+    }
+    public int isSelectionOnAtBean(int index){
+        for (int i=0;i<AtList.size();i++) {
+            Position position = AtList.get(i);
+            if(index >= position.start && index<=position.finish){
+                return i;
+            }
+        }
+        return -1;
+    }
 
     /**
      * 用于在edittext中输入@符号后的动作
